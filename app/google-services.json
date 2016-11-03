@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "339044027070",
+    "firebase_url": "https://gdg-workshop-9a73b.firebaseio.com",
+    "project_id": "gdg-workshop-9a73b",
+    "storage_bucket": "gdg-workshop-9a73b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339044027070:android:d06e31ad6190f5e6",
+        "android_client_info": {
+          "package_name": "de.devfest_berlin.a2016.gdgworkshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339044027070-lmll5dqtfhtsvusuq46oltn1s1np59lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.devfest_berlin.a2016.gdgworkshop",
+            "certificate_hash": "ACA753C1224101E5D1B294FB53B999B634BE38B0"
+          }
+        },
+        {
+          "client_id": "339044027070-fv3lpgtkjllskluirdghod50cm7lnfgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv6Zl9Hq_O1XF2hwXFxpvG_36KLGcpwis"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339044027070-fv3lpgtkjllskluirdghod50cm7lnfgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
