@@ -42,17 +42,13 @@ public class RatingPopupHelper {
 
         ROOT = "rating_popup",
 
-        FEATURES_ROOT = "x",
-        DEPENDENT_VAR_ROOT = "y",
-        ACTION = "action",
+        COUNTER_APP_OPEN_EVENT = "x_app_open",
+        DAYS_SINCE_FIRST_OPEN = "x_days_since_first_open",
+        COUNTER_FUNCTION_EVENT = "x_counter_function",
+        COUNTER_GAME_EVENT = "x_counter_game",
+        GAME_SCORE = "x_last_game_score",
 
-        COUNTER_APP_OPEN_EVENT = "app_open",
-        DAYS_SINCE_FIRST_OPEN = "days_since_first_open",
-        COUNTER_FUNCTION_EVENT = "counter_function",
-        COUNTER_GAME_EVENT = "counter_game",
-        GAME_SCORE = "last_game_score",
-
-        OBSERVED = "observed",
+        OBSERVED = "y_observed",
 
         REMOTE_LABEL_DATA = "label_data";
 
@@ -100,17 +96,14 @@ public class RatingPopupHelper {
 
     public void updateValue(Context context, String node, Object value) {
         if (available(context)) {
-            mDb.child(FEATURES_ROOT)
-                .child(node)
+            mDb.child(node)
                 .setValue(value);
         }
     }
 
     public void incrementValue(Context context, final String node) {
         if (available(context)) {
-            final DatabaseReference db = mDb
-                .child(FEATURES_ROOT)
-                .child(node);
+            final DatabaseReference db = mDb.child(node);
             db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,9 +164,7 @@ public class RatingPopupHelper {
                                         popup.dismiss();
 
                                         // Set the observed dependent variable as TRUE (1)
-                                        mDb.child(DEPENDENT_VAR_ROOT)
-                                                .child(OBSERVED)
-                                                .setValue(1);
+                                        mDb.child(OBSERVED).setValue(1);
 
                                         // Set locally rating as done
                                         setRatingDone(activity);
@@ -191,9 +182,7 @@ public class RatingPopupHelper {
                                         popup.dismiss();
 
                                         // Set the observed dependent variable as FALSE (0)
-                                        mDb.child(DEPENDENT_VAR_ROOT)
-                                                .child(OBSERVED)
-                                                .setValue(0);
+                                        mDb.child(OBSERVED).setValue(0);
                                     }
                                 });
                     }
