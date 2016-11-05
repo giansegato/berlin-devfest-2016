@@ -50,6 +50,8 @@ public class RatingPopupHelper {
 
         OBSERVED = "y_observed",
 
+        ACTION = "action",
+
         REMOTE_LABEL_DATA = "label_data";
 
     private static RatingPopupHelper sInstance = null;
@@ -62,6 +64,9 @@ public class RatingPopupHelper {
 
     // Remote config
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
+    // Action listener
+    private ValueEventListener mPopupActionListener;
 
     private RatingPopupHelper() {
         // Auth
@@ -140,10 +145,49 @@ public class RatingPopupHelper {
         s.edit().putBoolean("did_rating_popup", true).apply();
     }
 
-    public void ratingPopupIfNeeded(final Activity activity) {
+    public void addPopupActionListener(final Activity activity) {
+        if (!available(activity))
+            return;
 
-        if (available(activity) && // can proceed
-            mFirebaseRemoteConfig.getBoolean(REMOTE_LABEL_DATA)) // and it's time to label data
+        // Popup listener
+        mPopupActionListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    int action = dataSnapshot.getValue(Integer.class);
+                    if (action == 1) {
+                        showRatingPopup(activity);
+                    } // else: not the right moment yet
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Do nothing: either no connection, or no permissions
+            }
+        };
+
+        mDb.child(ACTION).addValueEventListener(mPopupActionListener);
+    }
+
+    public void removePopupActionListener() {
+        if (mPopupActionListener != null)
+            mDb.child(ACTION).removeEventListener(mPopupActionListener);
+    }
+
+    private void showRatingPopup(Activity activity) {
+        ratingPopupIfNeeded(activity);
+    }
+
+    /**
+     * Retained the old name just for code history consistency
+     */
+    private void ratingPopupIfNeeded(final Activity activity) {
+
+        if (available(activity)
+            // [1st step] it was:
+            // && mFirebaseRemoteConfig.getBoolean(REMOTE_LABEL_DATA)
+            )
         {
             try {
 

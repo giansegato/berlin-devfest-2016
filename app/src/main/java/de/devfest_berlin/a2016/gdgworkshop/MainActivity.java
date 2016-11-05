@@ -41,17 +41,29 @@ public class MainActivity extends AppCompatActivity {
             );
         }
 
+        // Setup listener
+
+
         // Views
         mLogs = (TextView) findViewById(R.id.main_txt_logs);
         mScroll = (ScrollView) findViewById(R.id.main_scrollview);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         // Show rating popup if needed
-        app.mRatingPopupHelper.ratingPopupIfNeeded(MainActivity.this);
+        // [1st step] it was: app.mRatingPopupHelper.ratingPopupIfNeeded(MainActivity.this);
+        // Now:
+        app.mRatingPopupHelper.addPopupActionListener(MainActivity.this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        app.mRatingPopupHelper.removePopupActionListener();
     }
 
     public void function(View view) {
