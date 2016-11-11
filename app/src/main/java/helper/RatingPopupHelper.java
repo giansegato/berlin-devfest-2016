@@ -37,6 +37,10 @@ import java.util.Map;
 
 public class RatingPopupHelper {
 
+    // 2nd: Create this class, singleton method and intance it in the Application class (to be create)
+
+    // 3rd: talking about firebase nodes
+
     public final static String
         TAG = RatingPopupHelper.class.getName(),
 
@@ -56,6 +60,8 @@ public class RatingPopupHelper {
 
     private static RatingPopupHelper sInstance = null;
 
+    // 3rd: all the variables I'm going to need but the last
+
     // Firebase user: used to get the user ID and to know whether we're authenticated or not
     private FirebaseUser mUser;
 
@@ -69,6 +75,9 @@ public class RatingPopupHelper {
     private ValueEventListener mPopupActionListener;
 
     private RatingPopupHelper() {
+
+        // 4th: auth, why we need it etc
+
         // Auth
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -88,6 +97,8 @@ public class RatingPopupHelper {
             }
         });
 
+        // 5th: remote config & setup remote config
+
         // Remote config
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         setupRemoteConfig();
@@ -99,6 +110,7 @@ public class RatingPopupHelper {
         return sInstance;
     }
 
+    // 6th: update function without available, then talk about available and write it
     public void updateValue(Context context, String node, Object value) {
         if (available(context)) {
             mDb.child(node)
@@ -106,6 +118,7 @@ public class RatingPopupHelper {
         }
     }
 
+    // 9th: increment value
     public void incrementValue(Context context, final String node) {
         if (available(context)) {
             final DatabaseReference db = mDb.child(node);
@@ -129,22 +142,26 @@ public class RatingPopupHelper {
         }
     }
 
+    // 8th: did rating
     private boolean didRating(Context context) {
         SharedPreferences s = context.getSharedPreferences(RatingPopupHelper.ROOT,
                 Context.MODE_PRIVATE);
         return s.getBoolean("did_rating_popup", false);
     }
 
+    // 7th: available -> didRating
     private boolean available(Context context) {
         return mUser != null && mDb != null && !didRating(context);
     }
 
+    // SECOND STAGE:
     private void setRatingDone(Context context) {
         SharedPreferences s = context.getSharedPreferences(RatingPopupHelper.ROOT,
                 Context.MODE_PRIVATE);
         s.edit().putBoolean("did_rating_popup", true).apply();
     }
 
+    // SECOND STAGE: 2nd: when should the rating be shown then?
     public void addPopupActionListener(final Activity activity) {
         if (!available(activity))
             return;
@@ -170,15 +187,19 @@ public class RatingPopupHelper {
         mDb.child(ACTION).addValueEventListener(mPopupActionListener);
     }
 
+    // SECOND STAGE: 3rd: remove it when don't needed anymore
     public void removePopupActionListener() {
         if (mPopupActionListener != null)
             mDb.child(ACTION).removeEventListener(mPopupActionListener);
     }
 
+    // SECOND STAGE: 1st: with the other one
     private void showRatingPopup(Activity activity) {
         ratingPopupIfNeeded(activity);
     }
 
+    // 11th: popup & observation when required
+    // SECOND STAGE: 1st: getting rid of remote config and explicit this function
     /**
      * Retained the old name just for code history consistency
      */

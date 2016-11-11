@@ -15,6 +15,10 @@ import helper.RatingPopupHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    // 1st: Integrate Firebase by authenticating the user etc
+
+    // 10th: all data input feature
+
     private DevFest app = DevFest.getInstance();
 
     private TextView mLogs;
@@ -53,16 +57,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // FINAL FIRST STAGE: 12th: call each time activity is called
         // Show rating popup if needed
         // [1st step] it was: app.mRatingPopupHelper.ratingPopupIfNeeded(MainActivity.this);
         // Now:
+
+        // SECOND STAGE: 4th: register the observer
         app.mRatingPopupHelper.addPopupActionListener(MainActivity.this);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+        protected void onPause() {
+            super.onPause();
 
+        // SECOND STAGE:  4th: unregister the observer
         app.mRatingPopupHelper.removePopupActionListener();
     }
 
